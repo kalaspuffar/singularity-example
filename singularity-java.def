@@ -1,0 +1,39 @@
+Bootstrap: docker
+From: ubuntu:latest
+
+%pre
+# Before install (host)
+
+%setup
+# After install (host)
+
+%post
+# After install (guest)
+apt update
+apt --assume-yes install openjdk-11-jdk maven
+cd /opt/basic
+mvn package
+
+%test
+# Test to run in order to ensure working environment
+    exit 0
+
+%runscript
+# Script to run when executing environment
+java -jar /opt/basic/target/basic-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+
+%startscript
+# Script to run when executing as instance
+
+%labels
+    author Daniel Persson
+
+%files
+# Files to copy from the host system.
+basic /opt/basic
+
+%environment
+# Environment variables
+
+%help
+# Text to show when help for the image is requested.
